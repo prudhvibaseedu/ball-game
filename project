@@ -1,0 +1,143 @@
+Public Class Form1
+
+    Dim incX As Integer = 1
+    Dim incy As Integer = 1
+    Dim direction As Integer = 3
+    Dim count = 0
+    Dim Collided As Boolean = False
+    Private _enemy As Object
+
+    Private Property enemy(ByVal p1 As Object) As Object
+        Get
+            Return _enemy
+        End Get
+        Set(ByVal value As Object)
+            _enemy = value
+        End Set
+    End Property
+
+
+    Private Sub OvalShape1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ball.Click, enemy1.Click, enemy4.Click, enemy3.Click, enemy2.Click
+        Timer1.Enabled = True
+       
+    End Sub
+
+    Private Sub OvalShape1_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles ball.KeyDown, enemy1.KeyDown, enemy4.KeyDown, enemy3.KeyDown, enemy2.KeyDown
+
+        If e.KeyCode = Keys.W Then
+            ball.Top -= 23
+            If ball.Top <= 0 Then
+                ball.Top = 0
+            End If
+        End If
+        If e.KeyCode = Keys.S Then
+            ball.Top += 23
+
+            If ball.Top + 109 >= Me.Height Then
+                ball.Top = Me.Height - 109
+            End If
+
+        End If
+        If e.KeyCode = Keys.A Then
+            ball.Left -= 23
+            If ball.Left + 568 <= Me.Width Then
+                ball.Left = Me.Width - 568
+            End If
+        End If
+        If e.KeyCode = Keys.D Then
+            ball.Left += 23
+            If ball.Left + 90 >= Me.Width Then
+                ball.Left = Me.Width - 90
+            End If
+        End If
+
+    End Sub
+
+    Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
+        count = count + 1
+        If count Mod 100 = 0 Then
+            direction += 1
+            If direction = 4 Then
+                direction = 0
+            End If
+        End If
+
+
+        If direction = 0 Then
+            enemy1.Left += incX * 2
+        End If
+        If direction = 1 Then
+            enemy1.Top -= incy * 2
+        End If
+        If direction = 2 Then
+            enemy1.Left -= incX * 2
+        End If
+        If direction = 3 Then
+            enemy1.Top += incy * 2
+        End If
+        If direction = 0 Then
+            enemy2.Top += incy
+        End If
+        If direction = 1 Then
+            enemy2.Left -= incX * 3
+        End If
+        If direction = 2 Then
+            enemy2.Top -= incy
+        End If
+        If direction = 3 Then
+            enemy2.Left += incX * 3
+        End If
+        If direction = 0 Then
+            enemy3.Top -= incy * 2
+        End If
+        If direction = 1 Then
+            enemy3.Left -= incX * 2
+        End If
+        If direction = 2 Then
+            enemy3.Top += incy * 2
+        End If
+        If direction = 3 Then
+            enemy3.Left += incX * 2
+        End If
+        If direction = 0 Then
+            enemy4.Top -= incy
+        End If
+        If direction = 1 Then
+            enemy4.Left += incX
+        End If
+        If direction = 2 Then
+            enemy4.Left -= incX
+        End If
+        If direction = 3 Then
+            enemy4.Top += incy
+        End If
+
+        If collision(enemy1, ball) Then
+            MsgBox("Gameover")
+            Application.Exit()
+
+        ElseIf collision(enemy2, ball) Then
+            MsgBox("Gameover")
+            Application.Exit()
+
+        ElseIf collision(enemy3, ball) Then
+            MsgBox("Gameover")
+            Application.Exit()
+
+        ElseIf collision(enemy4, ball) Then
+            MsgBox("Gameover")
+            Application.Exit()
+        End If
+    End Sub
+    Private Function collision(ByVal object1 As Object, ByVal Object2 As Object) As Boolean
+        Dim Collided As Boolean = False
+        If (object1.Top + object1.Height >= object2.Top And
+           object2.Top + object2.Height >= Object1.Top And
+           object1.left + object1.width >= object2.Left And
+           object2.Left + object2.width >= object1.Left And Object1.visible = True And object2.visible = True) Then
+            Collided = True
+        End If
+        Return collided
+    End Function
+
+End Class
